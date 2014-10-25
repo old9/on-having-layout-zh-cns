@@ -104,7 +104,7 @@ Internet Explorer 中有很多奇怪的渲染问题可以通过赋予其“layou
 <dt><code>height: 除 “auto” 外的任意值</code></dt>
 <dd>height: 1% 就在 Holly Hack 中用到。</dd>
 <dt><code>zoom: 除 “normal” 外的任意值</code> <a href="http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/zoom.asp" title="查看MSDN中的属性描述">MSDN</a></dt>
-<dd>MS专有属性，无法通过校验。 不过 <code>zoom: 1<code> 可以临时用做调试。</dd>
+<dd>MS专有属性，无法通过校验。 不过 <code>zoom: 1</code> 可以临时用做调试。</dd>
 <dt><code>writing-mode: tb-rl</code> <a href="http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/writingmode.asp" title="查看MSDN中的属性描述">MSDN</a></dt>
 <dd>MS专有属性，无法通过校验。</dd>
 </dl>
@@ -168,7 +168,7 @@ display 属性的不同：当用“inline-block”设置了 `haslayout = true` �
 
 没有办法直接设置或重置一个元素的脚本属性 `haslayout`。
 
-[hasLayout-property](http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/haslayout.asp "查看MSDN中的属性描述") 可以用来检测一个元素是否拥有 layout：举个例子，如果它的 `id` 是“eid”，那么只要在 IE5.5+ 的地址栏里输入 <code class="c1">javascript: alert(eid.currentStyle.hasLayout)` 即可检测它的状态。
+[hasLayout-property](http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/haslayout.asp "查看MSDN中的属性描述") 可以用来检测一个元素是否拥有 layout：举个例子，如果它的 `id` 是“eid”，那么只要在 IE5.5+ 的地址栏里输入 `javascript: alert(eid.currentStyle.hasLayout)` 即可检测它的状态。
 
 IE的 [Developer Toolbar](http://www.microsoft.com/downloads/details.aspx?Familyname=e59c3964-672d-4511-bb3e-2d5e1db91038&amp;displaylang=en "MS提供的下载") 可以实时检查一个元素的当前样式；如果 `hasLayout` 是 true ，那么它的值显示为 “-1”。 我们可以通过实时修改一个元素的属性将“zoom(css)”设置为“1”来触发 `hasLayout` 以便调试。
 
@@ -263,27 +263,17 @@ MSDN 上仍然使用 layout 属性这种说法， 只是含义变了，它们和
 
 在 IE5.5 中，MSHTML Editing Platform(即可以通过设置`<body contenteditable=true>`来允许用户实时编辑、拖动 layout 元素以及调整其尺寸等)的文档中描述了三个和 layout 相关的重要特性：
 
-<blockquote cite="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnmshtml/html/mshtmleditplatf.asp" title="来自MSDN规范： Editing Platform">
+> 如果一个 layout 元素中有内容，内容的排版布局将由它的边界矩形框决定。
+> 拥有 layout 的意思基本上就是表示某元素是一个矩形。
+> 从内部来说，拥有 layout 意思就是一个元素将自己负责绘制其内部内容。
 
-如果一个 layout 元素中有内容，内容的排版布局将由它的边界矩形框决定。
-
-拥有 layout 的意思基本上就是表示某元素是一个矩形。
-
-从内部来说，拥有 layout 意思就是一个元素将自己负责绘制其内部内容。
-
-</blockquote>
-
-(Editing Platform —— 此文在 MSDN 上已被删除<sup>[2](#endnote_002)</sup>)
+([来自MSDN规范： Editing Platform](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnmshtml/html/mshtmleditplatf.asp) —— 此文在 MSDN 上已被删除<sup>[2](#endnote_002)</sup>)
 
 和 layout 自身相关的内部工作机制直到2005年8月才有相应文档描述，当时由于 [The Web Standards Project](http://www.webstandards.org/ "meet the WaSP") 和微软的特别工作小组的原因，Markus Mielke [MSFT] 打开了深入讨论的大门：
 
-<blockquote cite="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/IETechCol/cols/dnexpie/expie20050831.asp" title="来自MSDN规范：Filters and Transitions">
+> 一般来说，在 Internet Explorer 的 DHTML 引擎中，元素是不对自己的位置安排负责的。虽然一个 div 或者一个 p 元素都在源码中有一个位置，在文档流有一个位置，但是它们的内容却是由它们最近的一个 layout 祖先(经常是 body)控制安排的。这些元素依赖它们祖先的 layout 来为他们处理诸如决定大小尺寸和测量信息等诸多繁重的工作。
 
-一般来说，在 Internet Explorer 的 DHTML 引擎中，元素是不对自己的位置安排负责的。虽然一个 div 或者一个 p 元素都在源码中有一个位置，在文档流有一个位置，但是它们的内容却是由它们最近的一个 layout 祖先(经常是 body)控制安排的。这些元素依赖它们祖先的 layout 来为他们处理诸如决定大小尺寸和测量信息等诸多繁重的工作。
-
-</blockquote>
-
-([HasLayout概述](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/IETechCol/cols/dnexpie/expie20050831.asp "查看MSDN中的文章"))
+([HasLayout概述](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/IETechCol/cols/dnexpie/expie20050831.asp "来自MSDN规范：Filters and Transitions"))
 
 ## <a name="interpr"></a>分析
 
@@ -504,9 +494,7 @@ Editing Platform(此文已从 MSDN 删除<sup>[2](#endnote_002)</sup>)继承了 
 
 ## <a name="bottomline"></a>拥有 layout ——另外一个引擎？
 
-<blockquote cite="http://dean.edwards.name/IE7/notes/#layout" title="Dean Edward 关于IE7的一些说明">
-IE 的对象模型看起来是文档模型和他们传统的应用程序模型的糅合。我之所以提到这点是因为它对于理解IE如何渲染页面很重要。而从文档模型切换到应用程序模型的开关就是给一个元素“layout”。
-</blockquote>
+> IE 的对象模型看起来是文档模型和他们传统的应用程序模型的糅合。我之所以提到这点是因为它对于理解IE如何渲染页面很重要。而从文档模型切换到应用程序模型的开关就是给一个元素“layout”。
 
 ([Dean Edwards](http://dean.edwards.name/IE7/notes/#layout "查看关于IE7的一些说明"))
 
@@ -514,11 +502,9 @@ IE 的对象模型看起来是文档模型和他们传统的应用程序模型�
 
 ## <a name="absurd"></a>不可消除的 bug
 
-<blockquote cite="http://www.gunlaug.no/contents/molly_1_15.html" title="Molly 说到...">
-软件 bug 是由于在制作过程中对完整性和逻辑问题考虑不周等人为错误而导致的。这是人类的固有缺陷，目前还没有什么好的解决方法。
-同样由于这种缺陷，任何试图不重写软件而修复 bug 的做法，都将会不可避免的导致软件中出现更复杂的bug。
-所有依赖别的软件的软件——当然包括依赖操作系统，也会同样依赖他们的 bug。于是我们会从所有关联的软件中得到一连串的 bug，这也更说明找到一个无 bug 软件是几乎不可能的。
-</blockquote>
+> 软件 bug 是由于在制作过程中对完整性和逻辑问题考虑不周等人为错误而导致的。这是人类的固有缺陷，目前还没有什么好的解决方法。
+> 同样由于这种缺陷，任何试图不重写软件而修复 bug 的做法，都将会不可避免的导致软件中出现更复杂的bug。
+> 所有依赖别的软件的软件——当然包括依赖操作系统，也会同样依赖他们的 bug。于是我们会从所有关联的软件中得到一连串的 bug，这也更说明找到一个无 bug 软件是几乎不可能的。
 
 ([Molly, the cat](http://www.gunlaug.no/contents/molly_1_15.html "Molly 说到..."))
 
@@ -537,7 +523,7 @@ IE 的对象模型看起来是文档模型和他们传统的应用程序模型�
 [Dean Edwards](http://dean.edwards.name "Molly ‚the cat")
 
 
-### <a name="translation">各种语言版本：
+### <a name="translation"></a>各种语言版本：
 * [原版(English)](http://www.satzansatz.de/cssd/onhavinglayout.html)
   [巴西葡萄牙语(Brazilian Portuguese)](http://www.maujor.com/tutorial/haslayout.php) by [Mauricio Samy Silva](http://www.maujor.com)
 * [中文版本(Chinese)](https://github.com/old9/on-having-layout-zh-cns/blob/master/on-having-layout-zh-CN.md) by [old9](https://github.com/old9)
