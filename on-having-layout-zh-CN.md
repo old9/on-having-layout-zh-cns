@@ -584,5 +584,6 @@ Editing Platform(此文已从 MSDN 删除<sup>[2](#endnote_002)</sup>)继承了 
 17. [不可消除的 bug](#absurd)
 
 <br />
+
 1. <a name="endnote_001"></a>[原文](http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "See the MSDN measurement and location overview")在 MSDN 上被修改过了。我们在 Internet Archive 上找到了一个存档版本([Controlling Presentation with Measurement and Location Properties](http://web.archive.org/web/20060213042931/http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "see the MSDN"))。
 2. <a name="endnote_002"></a>[原文](http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "See the MSDN")在 MSDN 上已被删除，这里是 Internet Archive 上的一个存档版本([The MSHTML Editing Platform in Internet Explorer 5.5](http://web.archive.org/web/20060207170714/http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "see the MSDN spec"))。
