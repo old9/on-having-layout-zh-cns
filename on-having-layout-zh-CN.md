@@ -197,7 +197,7 @@ John Gallant 和 Holly Bergevin 在2003年发布的 [Holly hack](http://www.comm
 ```
 
 
-另外，更具有向后兼容性的方法是使用 [条件注释(conditional comments)](http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp "查看MSDN"):
+另外，更具有向后兼容性的方法是使用 [条件注释(conditional comments)](http://msdn.microsoft.com/en-us/library/ms537512.aspx "查看MSDN"):
 
 ```html
 <!--[if lte IE 6]>
@@ -224,7 +224,7 @@ John Gallant 和 Holly Bergevin 在2003年发布的 [Holly hack](http://www.comm
 
 我们曾看过一些把 Holly hack 真的当作 holy(神圣的) hack 盲目使用的情况，比如对浮动元素使用或者对已经具有特定宽度的元素也使用这个 hack。要记住这个 hack 的目的不是要给某个元素加一个高度，而只是要触发 `hasLayout = True` 而已。
 
-	不要给所有元素设置 layout：`* {_height: 1px;}`。所谓过犹不及，获得 layout 不等于获得灵丹妙药，它只是用来改变渲染模式。
+不要给所有元素设置 layout：`* {_height: 1px;}`。所谓过犹不及，获得 layout 不等于获得灵丹妙药，它只是用来改变渲染模式。
 
 ### <a name="hackmanagement"></a>Hack整理
 
@@ -437,10 +437,8 @@ hasLayout 会影响一个块级别链接的鼠标响应区域(可点击区域)�
 
 这些属性造成的现象在IE/Win中也存在，当然这是只对那些它支持的属性而言。但是当一个应该收缩包围的元素中包含一个拥有“layout”的块级元素时，在绝大多数情况下，这个孩子元素的宽度会尽可能地扩展而与其中包含的内容无关，同时也阻止了父元素的收缩包围现象。
 
-<dl>
-<dt>[例子](http://dev.l-c-n.com/IEW2-bugs/shrinkwrap.php "tests: hasLayout and shrinkwrapping")：</dt>
-<dd>一个浮动的纵向导航无序列表并没有收缩包围，因为其中的链接为了消除列表的多余空白bug并扩展可点击区域而拥有了 layout：`a {display: block; zoom: 1;}`。</dd>
-</dl>
+> [例子](http://dev.l-c-n.com/IEW2-bugs/shrinkwrap.php "tests: hasLayout and shrinkwrapping")：
+> 一个浮动的纵向导航无序列表并没有收缩包围，因为其中的链接为了消除列表的多余空白bug并扩展可点击区域而拥有了 layout：`a {display: block; zoom: 1;}`。
 
 这时收缩包围现象只有在以下情况仍然有效：拥有 layout 的孩子元素同时也被赋予了一个特定宽度，或者这个孩子元素本身也是一个具有收缩包围特性的元素，比如浮动元素。
 
@@ -506,7 +504,7 @@ Editing Platform(此文已从 MSDN 删除<sup>[2](#endnote_002)</sup>)继承了 
 > 同样由于这种缺陷，任何试图不重写软件而修复 bug 的做法，都将会不可避免的导致软件中出现更复杂的bug。
 > 所有依赖别的软件的软件——当然包括依赖操作系统，也会同样依赖他们的 bug。于是我们会从所有关联的软件中得到一连串的 bug，这也更说明找到一个无 bug 软件是几乎不可能的。
 
-([Molly, the cat](http://www.gunlaug.no/contents/molly_1_15.html "Molly 说到..."))
+([Molly, the cat‛](http://www.gunlaug.no/contents/molly_1_15.html "Molly 说到..."))
 
 本文创建于2005年6月30日，最后一次修改于2006年10月19日。
 
@@ -545,46 +543,46 @@ Editing Platform(此文已从 MSDN 删除<sup>[2](#endnote_002)</sup>)继承了 
 * 本文基于[创作共用协议](http://creativecommons.org/licenses/by-nc-sa/2.0/)发布。
 
 
-## 目录
+## <a name="toc"></a>目录
 
 1. [介绍](#intro)
 2. [hasLayout —— 定义](#def)
-3. [术语](#nom)
-4. [问题种种](#begin)
-5. [Layout 从何而来](#wherefrom)
-6. [默认 layout 元素](#elem)
-7. [属性](#prop)
-8. [有关内联级别元素](#inline)
-9. [重置 hasLayout](#reset)
-10. [脚本属性 hasLayout](#haslayoutprop)
-11. [CSS hacks](#hack)
-12. [Hack整理](#hackmanagement)
-13. [关于 IE Mac 的小问题](#iemac)
-14. [MSDN文档](#docu)
-15. [分析](#interpr)
-16. [各种情况的详细说明](#rev)
-17. [清除浮动和自动扩展适应高度](#clear)
-18. [浮动元素旁边的元素](#nextfloat)
-19. [列表](#list)
-20. [表格](#tab)
-21. [相对定位元素(r.p.)](#rp)
-22. [绝对定位元素(a.p.)：包含区块，什么是包含区块？](#cb)
-23. [滤镜](#filter)
-24. [对已渲染元素的重排(re-flow)](#reflow)
-25. [背景原点](#bgorigin)
-26. [边距重叠](#uncollapse)
-27. [块级别的链接](#link)
-28. [在页面内使用键盘浏览：探索中](#inpage)
-29. [收缩包围(shrink-wrapping)现象](#shrinkwrap)
-30. [边缘裁切](#clip)
-31. [堆叠，分层和 layout ](#stack)
-32. [混乱的 contenteditable](#contenteditable)
-33. [和 CSS 规范类似的地方](#engineer)
-34. [Quirks 模式](#quirk)
-35. [Layout —— 结论](#conclusion)
-36. [拥有 layout —— 另外一个引擎？](#bottomline)
-37. [不可消除的 bug](#absurd)
+  1. [术语](#nom)
+3. [问题种种](#begin)
+4. [Layout 从何而来](#wherefrom)
+5. [默认 layout 元素](#elem)
+    1. [属性](#prop)
+    2. [有关内联级别元素](#inline)
+    3. [重置 hasLayout](#reset)
+    4. [脚本属性 hasLayout](#haslayoutprop)
+6. [CSS hacks](#hack)
+    1. [Hack整理](#hackmanagement)
+7. [关于 IE Mac 的小问题](#iemac)
+8. [MSDN文档](#docu)
+9. [分析](#interpr)
+10. [各种情况的详细说明](#rev)
+    1. [清除浮动和自动扩展适应高度](#clear)
+    2. [浮动元素旁边的元素](#nextfloat)
+    3. [列表](#list)
+    4. [表格](#tab)
+    5. [相对定位元素(r.p.)](#rp)
+    6. [绝对定位元素(a.p.)：包含区块，什么是包含区块？](#cb)
+    7. [滤镜](#filter)
+    8. [对已渲染元素的重排(re-flow)](#reflow)
+    9. [背景原点](#bgorigin)
+    10. [边距重叠](#uncollapse)
+    11. [块级别的链接](#link)
+    12. [在页面内使用键盘浏览：探索中](#inpage)
+    13. [收缩包围(shrink-wrapping)现象](#shrinkwrap)
+    14. [边缘裁切](#clip)
+11. [堆叠，分层和 layout ](#stack)
+12. [混乱的 contenteditable](#contenteditable)
+13. [和 CSS 规范类似的地方](#engineer)
+14. [Quirks 模式](#quirk)
+15. [Layout —— 结论](#conclusion)
+16. [拥有 layout —— 另外一个引擎？](#bottomline)
+17. [不可消除的 bug](#absurd)
 
-
-1. [原文](http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "See the MSDN measurement and location overview")在 MSDN 上被修改过了。我们在 Internet Archive 上找到了一个存档版本([Controlling Presentation with Measurement and Location Properties](http://web.archive.org/web/20060213042931/http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "see the MSDN"))。
-2. [原文](http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "See the MSDN")在 MSDN 上已被删除，这里是 Internet Archive 上的一个存档版本([The MSHTML Editing Platform in Internet Explorer 5.5](http://web.archive.org/web/20060207170714/http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "see the MSDN spec"))。
+<br />
+1. <a name="endnote_001"></a>[原文](http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "See the MSDN measurement and location overview")在 MSDN 上被修改过了。我们在 Internet Archive 上找到了一个存档版本([Controlling Presentation with Measurement and Location Properties](http://web.archive.org/web/20060213042931/http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "see the MSDN"))。
+2. <a name="endnote_002"></a>[原文](http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "See the MSDN")在 MSDN 上已被删除，这里是 Internet Archive 上的一个存档版本([The MSHTML Editing Platform in Internet Explorer 5.5](http://web.archive.org/web/20060207170714/http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "see the MSDN spec"))。
