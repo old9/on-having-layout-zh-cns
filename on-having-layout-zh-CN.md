@@ -1,4 +1,3 @@
-
 译者注：一篇很好的文章，很久以前在blog上就推荐过，这两天断断续续花了点时间翻译了一下，推荐读读。[英文原文在此](http://www.satzansatz.de/cssd/onhavinglayout.htm)。
 
 文中所有的 layout 这个单词都未作翻译，一来本身这个单词意思就比较多，翻成啥都觉得别扭，二来它也是专有的属性，所以就意会一下吧。水平有限，很多地方都是模模糊糊地意译，发现错误欢迎留言指出。
@@ -31,23 +30,18 @@
 
 # On having layout
 
-<dl name="version" class="c3">
-<dt>本文修订中</dt>
+### <a name="version"></a>本文修订中
 
-<dd>当前版本：[rev. 7 2007-05-09](http://www.satzansatz.de/cssd/onhavinglayoutrev07-20070509.html)</dd>
+* 当前版本：[rev. 7 2007-05-09](http://www.satzansatz.de/cssd/onhavinglayoutrev07-20070509.html)
+* [修订历史](http://www.satzansatz.de/cssd/layoutchangelog.html)
+* [各种语言版本](#translation)
+* [目录](#toc)
 
-<dd>[修订历史](http://www.satzansatz.de/cssd/layoutchangelog.html)</dd>
-
-<dd>[各种语言版本](#translation)</dd>
-
-<dd>[目录](#toc)</dd>
-</dl>
-
-## 介绍<a name="intro"></a>
+## <a name="intro"></a>介绍
 
 Internet Explorer 中有很多奇怪的渲染问题可以通过赋予其“layout”得到解决。John Gallant 和 Holly Bergevin 把这些问题归类为“尺寸bug(dimensional bugs)”，意思是这些 bug 可以通过赋予相应元素某个宽度或高度解决。这便引出关于“layout”的一个问题：为什么它会改变元素的渲染特性，为什么它会影响到元素之间的关系？这个问题问得很好，但却很难回答。在这篇文章中，我们专注于这个复杂问题会有那些方面的表现，某一方面的具体讨论和范例请参考文中给出的相关链接。
 
-## hasLayout — 定义<a name="def"></a>
+## <a name="def"></a>hasLayout — 定义
 
 “Layout”是一个 IE/Win 的私有概念，它决定了一个元素如何显示以及约束其包含的内容、如何与其他元素交互和建立联系、如何响应和传递应用程序事件/用户事件等。
 
@@ -55,7 +49,7 @@ Internet Explorer 中有很多奇怪的渲染问题可以通过赋予其“layou
 
 微软的开发者们认为元素都应该可以拥有一个“属性(property)”(这是面向对象编程中的一个概念)，于是他们便使用了 `hasLayout`，这种渲染特性生效时也就是将 hasLayout 设成了 `true` 之时。
 
-### 术语<a name="nom"></a>
+### <a name="nom"></a>术语
 
 当我们说一个元素“得到 layout”，或者说一个元素“拥有 layout” 的时候，我们的意思是指它的微软专有属性 [`hasLayout`](http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/haslayout.asp "查看MSDN中的属性描述") 为此被设为了 `true` 。一个“layout元素”可以是一个默认就拥有 layout 的元素或者是一个通过设置某些 CSS 属性得到 layout 的元素。
 
@@ -63,7 +57,7 @@ Internet Explorer 中有很多奇怪的渲染问题可以通过赋予其“layou
 
 给一个默认没有 layout 的元素赋予 layout 的方法包括设置可触发 `hasLayout = true` 的 CSS 属性。参考[默认 layout 元素](#elem)以及这些[属性](#prop)列表。没有办法设置 `hasLayout = false`，除非把一开始那些触发 `hasLayout = true` 的 CSS 属性去除或重置。
 
-## 问题种种<a name="begin"></a>
+## <a name="begin"></a>问题种种
 
 `hasLayout` 的问题不管新手还是老手，不管设计师或者程序员可能都遇到过。Layout 在显示盒子时有着不同寻常而且难以预料的效果，而且有时甚至会牵连到他们的孩子元素。
 
@@ -78,95 +72,70 @@ Internet Explorer 中有很多奇怪的渲染问题可以通过赋予其“layou
 
 上面的列表只是列出一个大概，也不完善。下面的文章将尽可能详细彻底的描述有无“layout”所带来的各种问题。
 
-## Layout 从何而来<a name="wherefrom"></a>
+## <a name="wherefrom"></a>Layout 从何而来
 
 不同于标准属性，也不像某些浏览器的私有 CSS 属性，layout <em>无法通过某一个 CSS 声明直接设定</em> 。也就是说没有“layout属性”这么一个东西，元素要么本身自动拥有 layout，要么借助一些 CSS 声明悄悄地获得 layout。
 
-### 默认layout元素<a name="elem"></a>
+### <a name="elem"></a>默认layout元素
 
 下列元素应该是默认具有 layout 的：
 
-* `&lt;html&gt;, &lt;body&gt;`
-* `&lt;table&gt;, &lt;tr&gt;, &lt;th&gt;, &lt;td&gt;`
-* `&lt;img&gt;`
-* `&lt;hr&gt;`
-* `&lt;input&gt;, &lt;button&gt;, &lt;select&gt;, &lt;textarea&gt;, &lt;fieldset&gt;, &lt;legend&gt;`
-* `&lt;iframe&gt;, &lt;embed&gt;, &lt;object&gt;, &lt;applet&gt;`
-* `&lt;marquee&gt;`
+* `<html>, <body>`
+* `<table>, <tr>, <th>, <td>`
+* `<img>`
+* `<hr>`
+* `<input>, <button>, <select>, <textarea>, <fieldset>, <legend>`
+* `<iframe>, <embed>, <object>, <applet>`
+* `<marquee>`
 
-### 属性<a name="prop"></a>
+### <a name="prop"></a>属性
 
 下列 CSS 属性和取值将会让一个元素获得 layout：
 
 <dl>
-<dt>`position: absolute`</dt>
-
+<dt><code>position: absolute</code></dt>
 <dd>绝对定位元素的包含区块(containing block)就会经常在这一方面出问题。</dd>
-
-<dt>`float: left|right`</dt>
-
+<dt><code>float: left|right</code></dt>
 <dd>由于 layout 元素的特性，浮动模型会有很多怪异的表现。</dd>
-
-<dt>`display: inline-block`</dt>
-
+<dt><code>display: inline-block</code></dt>
 <dd>当一个内联级别的元素需要 layout 的时候往往就要用到它，这也可能也是这个 CSS 属性的唯一效果——让某个元素拥有 layout。“inline-block行为”在IE中是可以实现的，但是非常与众不同： [IE/Win: inline-block and hasLayout](http://www.brunildo.org/test/InlineBlockLayout.html "查看Bruno Fassino的相关文章") 。</dd>
-
-<dt>`width: 除 “auto” 外的任意值`</dt>
-
+<dt><code>width: 除 “auto” 外的任意值</code></dt>
 <dd>很多人遇到 layout 相关问题发生时，一般都会先尝试用这个来修复。</dd>
-
-<dt>`height: 除 “auto” 外的任意值`</dt>
-
+<dt><code>height: 除 “auto” 外的任意值</code></dt>
 <dd>height: 1% 就在 Holly Hack 中用到。</dd>
-
-<dt>`zoom: 除 “normal” 外的任意值` ([MSDN](http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/zoom.asp "查看MSDN中的属性描述"))</dt>
-
-<dd>MS专有属性，无法通过校验。 不过 `zoom: 1` 可以临时用做调试。</dd>
-
-<dt>`writing-mode: tb-rl` ([MSDN](http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/writingmode.asp "查看MSDN中的属性描述"))</dt>
-
+<dt><code>zoom: 除 “normal” 外的任意值</code> <a href="http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/zoom.asp" title="查看MSDN中的属性描述">MSDN</a></dt>
+<dd>MS专有属性，无法通过校验。 不过 <code>zoom: 1<code> 可以临时用做调试。</dd>
+<dt><code>writing-mode: tb-rl</code> <a href="http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/writingmode.asp" title="查看MSDN中的属性描述">MSDN</a></dt>
 <dd>MS专有属性，无法通过校验。</dd>
 </dl>
 
 在 IE7 中，overflow 也变成了一个 layout 触发器：
 
 <dl>
-<dt>`overflow: hidden|scroll|auto`</dt>
-
+<dt><code>overflow: hidden|scroll|auto</code></dt>
 <dd>这个属性在之前版本 IE 中没有触发 layout 的功能。</dd>
-
-<dt>`overflow-x|-y: hidden|scroll|auto`</dt>
-
+<dt><code>overflow-x|-y: hidden|scroll|auto</code></dt>
 <dd>overflow-x 和 overflow-y 是 CSS3 盒模型中的属性，尚未得到浏览器的广泛支持。他们在之前版本IE中没有触发 layout 的功能。</dd>
 </dl>
 
 另外 IE7 的荧幕上又新添了几个 haslayout 的演员，如果只从 hasLayout 这个方面考虑，min/max 和 width/height 的表现类似，position 的 fixed 和 absolute 也是一模一样。
 
 <dl>
-<dt>`position: fixed`</dt>
-
+<dt><code>position: fixed</code></dt>
 <dd>./.</dd>
-
-<dt>`min-width: 任意值`</dt>
-
+<dt><code>min-width: 任意值</code></dt>
 <dd>就算设为0也可以让该元素获得 layout。</dd>
-
-<dt>`max-width: 除 “none” 之外的任意值`</dt>
-
+<dt><code>max-width: 除 “none” 之外的任意值</code></dt>
 <dd>./.</dd>
-
-<dt>`min-height: 任意值`</dt>
-
+<dt><code>min-height: 任意值</code></dt>
 <dd>即使设为0也可以让该元素的 haslayout=true</dd>
-
-<dt>`max-height: 除 “none” 之外的任意值`</dt>
-
+<dt><code>max-height: 除 “none” 之外的任意值</code></dt>
 <dd>./.</dd>
 </dl>
 
 以上结论借助 IE Developer Toobar 以及预先测试得出。
 
-### 有关内联级别元素<a name="inline"></a>
+### <a name="inline"></a>有关内联级别元素
 
 对于内联元素(可以是默认即为内联的比如 `span` 元素，也可以是 `display: inline` 的元素)
 
@@ -175,7 +144,7 @@ Internet Explorer 中有很多奇怪的渲染问题可以通过赋予其“layou
 
 具有“layout” 的元素如果同时也 `display: inline` ，那么它的行为就和标准中所说的 inline-block 很类似了：在段落中和普通文字一样在水平方向和连续排列，受 vertical-align 影响，并且大小可以根据内容自适应调整。这也可以解释为什么单单在 IE/Win 中内联元素可以包含块级元素而少出问题，因为在别的浏览器中 `display: inline` 就是内联，不像 IE/Win 一旦内联元素拥有 layout 还会变成 inline-block。
 
-### 重置 haslayout<a name="reset"></a>
+### <a name="reset"></a>重置 haslayout
 
 在另一条规则中重设以下属性为默认值将重置(或撤销)`hasLayout`，如果没有其他属性再添加 `hasLayout` 的话：
 
@@ -193,7 +162,7 @@ display 属性的不同：当用“inline-block”设置了 `haslayout = true` �
 
 把 `mid-width, mid-height` 设为它们的默认值“0”仍然会赋予 `hasLayout`，但是 IE 7 却可以接受一个不合法的属性“auto”来重置 `hasLayout`。
 
-### 脚本属性 hasLayout<a name="haslayoutprop"></a>
+### <a name="haslayoutprop"></a>脚本属性 hasLayout
 
 我们这里称 hasLayout 为“脚本属性”是为了和我们熟知的 CSS 属性相区别。
 
@@ -205,39 +174,49 @@ IE的 [Developer Toolbar](http://www.microsoft.com/downloads/details.aspx?Family
 
 另外一个需要注意的是“layout”会影响脚本编程。如果一个元素没有“layout”，那么`clientWidth`/`clientHeight` 总是返回0。这会让一些脚本新手感到困惑，而且这和 Mozilla 浏览器的处理方式也不一样。不过我们可以利用这一点在 IE5.0 中检测“layout”：如果 `clientWidth` 是零那么这个元素就没有 layout。
 
-## CSS hacks<a name="hack"></a>
+## <a name="hack"></a>CSS hacks
 
 下面用于触发 `haslayout` 的 hack 已经经过 IE6 及以下版本测试。今后版本的IE有可能会对此做不同处理。如果新版本浏览器发布我们会重新整理这部分内容。
 
 John Gallant 和 Holly Bergevin 在2003年发布的 [Holly hack](http://www.communitymx.com/content/article.cfm?page=2&amp;cname=C37E0 "发表于communitymx") ：
 
-	<pre class="code">/* \\*/
+```css
+/* \\*/
 * html .gainlayout { height: 1%; }
-	/* */	</pre>
+/* */
+```
 
 * 可以让 IE5+ 的任意元素获得 layout，除了标准兼容模式 IE6 中的内联元素。
 * 一般都很有效，除了在某些极少情况下，需要用 height:0 或者 1px 更好一些。
-* 和 `overflow: hidden` 不相容，除非在 IE6 的标注兼容模式下(因为这时如果父元素没有定高，那么`height: 1%` 会被变回 `height: auto`)。
+* 和 `overflow: hidden` 不相容，除非在 IE6 的标准兼容模式下(因为这时如果父元素没有定高，那么`height: 1%` 会被变回 `height: auto`)。
 
 或者我们可以用 [underscore hack](http://wellstyled.com/singlelang.php?lang=en&amp;page=css-underscore-hack.html "查看WellStyled Workshop中的文章"):
 
-<pre class="code">.gainlayout { _height: 0; }</pre>
+```css
+.gainlayout { _height: 0; }
+```
+
 
 另外，更具有向后兼容性的方法是使用 [条件注释(conditional comments)](http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp "查看MSDN"):
 
-<pre class="code">&lt;!--[if lte IE 6]&gt;
-&lt;style&gt;
+```html
+<!--[if lte IE 6]>
+<style>
 .gainlayout { height: 1px; }
-&lt;/style&gt;
-&lt;![endif]--&gt;</pre>
+</style>
+<![endif]-->
+```
+
 
 在条件注释中链接一个专门对 IE/Win 做修正的外部样式表文件，也不失为一个安全有效的好方法：
 
-<pre class="code">&lt;link rel=&quot;stylesheet&quot; href=&quot;allbrowsers.css&quot; type=&quot;text/css&quot; /&gt;
+```html
+<link rel="stylesheet" href="allbrowsers.css" type="text/css" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="iefix.css" type="text/css" />
+<![endif]-->
+```
 
-&lt;!--[if lte IE 6]&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;iefix.css&quot; type=&quot;text/css&quot; /&gt;
-&lt;![endif]--&gt;</pre>
 
 我们更倾向于使用 `height: 0` 和 `1px` —— 并主张始终使用 `height` 除非它和别的什么东西冲突 (`overflow: hidden`)。对于取值，我们则倾向于避免 `1%` ，因为它可能会(虽然很少)引起[一些问题](http://www.brunildo.org/test/relayout.html "看看Fassino的测试样例")。
 
@@ -247,19 +226,22 @@ John Gallant 和 Holly Bergevin 在2003年发布的 [Holly hack](http://www.comm
 
 	不要给所有元素设置 layout：`* {_height: 1px;}`。所谓过犹不及，获得 layout 不等于获得灵丹妙药，它只是用来改变渲染模式。
 
-### Hack整理<a name="hackmanagement"></a>
+### <a name="hackmanagement"></a>Hack整理
 
 但是浏览器总是会变的，我们需要面对很多问题，比如一些依赖 IE6 的 bug 所做的 hack 会在 IE7 或更高版本的新浏览器中因 bug 修复而失效(甚至有害)的问题；比如新版本浏览器中类似的布局 bug 依然存在	但用于 hack 的过滤器比如 `* html` 却不能正常工作的问题。这种情况下，MS专有属性 `zoom` 就可以考虑使用了。
 
-<pre class="code">&lt;!--[if lt IE 7]&gt;&lt;style&gt;
+```html
+<!--[if lt IE 7]><style>
 	/* IE 6 + IE5.5 + IE5.0 所用样式*/
 .gainlayout { height: 0; }
-&lt;/style&gt;&lt;![endif]--&gt;
+</style><![endif]-->
 
-&lt;!--[if IE 7]&gt;&lt;style&gt;
+<!--[if IE 7]><style>
 .gainlayout { zoom: 1;}
 	/* 或者其他任何以后可能需要的东西 */
-&lt;/style&gt;&lt;![endif]--&gt;</pre>
+</style><![endif]-->
+```
+
 
 * `zoom: 1;` 可以让 IE5.5+ 的任何元素(包括内联元素)获得 layout，但是在 IE5.0 中无效。
 * 没有其他附带效果(内联元素会变成 inline-block，这个当然)。
@@ -267,11 +249,11 @@ John Gallant 和 Holly Bergevin 在2003年发布的 [Holly hack](http://www.comm
 
 其实当我们考虑到“向后兼容”时是很自相矛盾的，我们强烈建议页面设计者回过头看一下自己页面中用的到的明显的或是不明显的“hacks”，并用条件注释针对不同浏览器重新处理以保万无一失。
 
-## 关于IE Mac 的小问题<a name="iemac"></a>
+## <a name="iemac"></a>关于IE Mac 的小问题
 
 IE Mac 和 windows 下的 IE 是完全不同的两个东西，它们各自拥有自己的渲染引擎，IE Mac 就全然不知“hasLayout”(或contenteditable)所谓何物。相比之下 IE Mac 的渲染引擎要更标准兼容一点，比如 `height` 就是被当作 `height` 处理，没有别的效果。因此针对“hasLayout”的 hacks 和别的解决方法(特别是通过使用 `height` 或 `width` 属性的)往往对 IE Mac 来说是有害的，所以需要对其隐藏。更多的关于 IE Mac 相关的问题可以在 [IE Mac, bugs and oddities pages](http://www.l-c-n.com/IE5tests/ "CSS problems in IE Mac") 找到。
 
-## MSDN 文档<a name="docu"></a>
+## <a name="docu"></a>MSDN 文档
 
 MSDN 中涉及到 hasLayout 这个 MS 属性的地方寥寥无几，而具体解释 layout 和 IE 渲染模型之间关系的则少之又少。
 
@@ -279,7 +261,7 @@ MSDN 中涉及到 hasLayout 这个 MS 属性的地方寥寥无几，而具体解
 
 MSDN 上仍然使用 layout 属性这种说法， 只是含义变了，它们和拥有 layout 的元素已经没有什么关系了。在 IE5.5 中方才引入了 MS 的这个专有属性 [`hasLayout`](http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/haslayout.asp "查看MSDN中的属性描述")，也只是某种内部的标志位而已。
 
-在 IE5.5 中，MSHTML Editing Platform(即可以通过设置`&lt;body contenteditable=true&gt;`来允许用户实时编辑、拖动 layout 元素以及调整其尺寸等)的文档中描述了三个和 layout 相关的重要特性：
+在 IE5.5 中，MSHTML Editing Platform(即可以通过设置`<body contenteditable=true>`来允许用户实时编辑、拖动 layout 元素以及调整其尺寸等)的文档中描述了三个和 layout 相关的重要特性：
 
 <blockquote cite="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnmshtml/html/mshtmleditplatf.asp" title="来自MSDN规范： Editing Platform">
 
@@ -303,7 +285,7 @@ MSDN 上仍然使用 layout 属性这种说法， 只是含义变了，它们和
 
 ([HasLayout概述](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/IETechCol/cols/dnexpie/expie20050831.asp "查看MSDN中的文章"))
 
-## 分析<a name="interpr"></a>
+## <a name="interpr"></a>分析
 
 我们的分析试图解释在已知案例下发生了什么事情，这种分析也应该可以作为未知案例下的指导。但我们这种试图利用种种测试案例投石探路的黑箱测试方法，是注定无法消除黑箱的神秘感的——我们无法回答“为什么”的问题。我们只能去尝试了解整个“hasLayout”模式的工作框架，以及它会怎样影响网页文档的渲染。因此，最终我们只能提供一些<em>指导方针</em>(而且只能是指导方针，而不是绝对的解决方案)。
 
@@ -315,9 +297,9 @@ MSDN 上仍然使用 layout 属性这种说法， 只是含义变了，它们和
 
 MS 的“页面”模式，从符号学角度考虑，可以看做是由很多互不相关的小的区块构成，而 HTML 和 W3C 的模式则认为“页面”模式应该是叙述完备的，故事性的相关信息区块构成的。
 
-## 各种情况的详细说明<a name="rev"></a>
+## <a name="rev"></a>各种情况的详细说明
 
-### 清除浮动和自动扩展适应高度<a name="clear"></a>
+### <a name="clear"></a>清除浮动和自动扩展适应高度
 
 浮动元素会被 layou 元素自动包含。这是很多新手经常遇到的问题：在 IE 下完成的页面到了标准兼容浏览器下所有未清除的浮动元素都伸出了其包含容器之外。
 
@@ -336,7 +318,7 @@ MS 的“页面”模式，从符号学角度考虑，可以看做是由很多�
 
 IE 的自动包含浮动元素也是经常需要的效果，它在其他浏览器中也可以达到：参考我们的 “[和 CSS 规范类似的地方](#engineer)” 这一部分来了解一下包含浮动元素的相关内容。
 
-### 浮动元素旁边的元素<a name="nextfloat"></a>
+### <a name="nextfloat"></a>浮动元素旁边的元素
 
 当一个块级元素紧跟在一个左浮动元素之后时，它应该——作为一个块级元素——忽略这个浮动元素，而它的内容则应该因这个浮动元素而移位：一个紧跟在左浮动元素后的块级元素内的文字内容，应该沿着浮动元素的右边顺序排列并会(如果它的长度超过浮动元素)继续排列到浮动元素下方。但是如果这个块级元素有 layout，比如由于某种原因被设置了宽度，那么这整个元素则会因浮动元素而移位，就好像它自己也是一个浮动元素一样，因此其中的文字就不再环绕这个左浮动元素了(而会形成一个矩形区域，保持在它的右边。)
 
@@ -351,7 +333,7 @@ IE 的自动包含浮动元素也是经常需要的效果，它在其他浏览�
 
 * [layout blocks with relative positioning adjacent to floated blocks](http://dev.l-c-n.com/IEW2-bugs/float-layout2-rp.php)
 
-根据规范所述，浮动元素应该与其后的盒子<em>交织</em>在一起。而对于没有交叉的二维空间中的矩形而言这是无法实现的。
+根据规范所述，浮动元素应该与其后的盒子__交织__在一起。而对于没有交叉的二维空间中的矩形而言这是无法实现的。
 
 如果谁真的需要向 IE 的这种不当行为屈服，那么如何让标准兼容浏览器中的盒子也有类似行为——即类似于 layout 盒子会自动“收缩”而给其前置的浮动元素让出空间的行为——就是一个问题了。我们给出的方法是跟着一个浮动元素创建一个新的块级格式化范围(block formatting context)，这在我们的“[和 CSS 规范类似的地方](#engineer)” 有讨论。
 
@@ -361,7 +343,7 @@ IE 的自动包含浮动元素也是经常需要的效果，它在其他浏览�
 
 我们可以看到跟在一个浮动元素后的 layout 元素不会显示这个3px间隙的 bug，因为浮动元素外围的3px硬边无法影响一个 layout 元素的内部内容，所以这个硬边将整个 layout 元素右推了3px。好比一个防护罩，layout 可以保护其内部内容不受影响，但是浮动元素的力量却将整个防护罩推了开来。
 
-### 列表<a name="list"></a>
+### <a name="list"></a>列表
 
 无论是列表本身(`ol, ul`) 还是单个的列表元素(`li`)，拥有 layout 后都会影响列表的表现。不同版本 IE 的表现又有不同。最明显的效果就体现在列表符号上(如果你的列表自定义了列表符号则不会受这个问题影响)。这些符号很可能是通过某种内部机制附到列表元素上的(通常是附着在它们外面)。不幸的是，由于是通过“内部机制”添加的，我们无法访问它们也无法修正它们的错误表现。
 
@@ -383,11 +365,11 @@ IE 的自动包含浮动元素也是经常需要的效果，它在其他浏览�
 
 另一个IE中列表的常见问题出现在当某个 `li` 中的内容是一个 `display: block` 的锚点(anchor)时。在这种情况下，列表元素之间的空格将不会被忽略而且通常会显示成额外的一行夹在每个 `li` 之间。一种避免这种竖直方向多余空白的解决方法是赋予这些锚点 layout。这样还有一个好处就是可以让整个锚点的矩形区域都可以响应鼠标点击。
 
-### 表格<a name="tab"></a>
+### <a name="tab"></a>表格
 
 `table` 总是有 layout 的，它总表现为一个已定义宽度的对象。在IE6中，[`table-layout: fixed`](http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/tablelayout.asp "查看MSDN") 通常和一个宽度设为100%的表格相同，同时这也会带来很多问题(一些计算方面的错误)。另外在IE5.5和IE6的quirks模式下[还有一些别的需要注意的情况](http://dev.l-c-n.com/tables_2/ "查看 Philippe Wittenbergh 的文章")。
 
-### 相对定位元素(r.p.)<a name="rp"></a>
+### <a name="rp"></a>相对定位元素(r.p.)
 
 注意，由于 `position: relative` 并不触发 hasLayout，所以很多诸如内容消失或错位的渲染错误就会因此而起。这些现象可能会在刷新页面、调整窗口大小、滚动页面、选中内容等情况下出现。原因是 IE 在据这个属性对元素做偏移处理时，却似乎忘了发出信号让其 layout 孩子元素进行“重绘”(而如果是一个layout元素，那么在其重绘事件的信号链中，这个传给其孩子的信号是会正常发出的)。
 
@@ -396,7 +378,7 @@ IE 的自动包含浮动元素也是经常需要的效果，它在其他浏览�
 
 以上是一些相关问题的描述。作为经验之谈，相对定位一个元素时最好给予其 layout。再有，我们也需要检查拥有这种结构的父元素是否也需要 layout 或者`position: relative`亦或二者都需要，如果涉及到浮动元素这点就十分重要。
 
-### 绝对定位元素(a.p.)：<br />包含区块，什么是包含区块？<a name="cb"></a>
+### <a name="cb"></a>绝对定位元素(a.p.)：<br />包含区块，什么是包含区块？
 
 理解 CSS 的包含区块概念很重要，它回答了绝对定位元素是相对哪里定位的问题：包含区块决定了偏移起点，包含区块定义了百分比长度的计算参考。
 
@@ -414,26 +396,26 @@ IE 的自动包含浮动元素也是经常需要的效果，它在其他浏览�
 
 * [absolutely positioned element and percentage width](http://www.satzansatz.de/cssd/tmp/apboxpercentagewidth.html "查看 Ingo Chao 的测试样例")
 
-### 滤镜<a name="filter"></a>
+### <a name="filter"></a>滤镜
 
 MS专有的滤镜属性 [filter](http://msdn.microsoft.com/workshop/author/filter/filters.asp "查看 MSDN 规范") 是只适用于 layout 元素的。同时它们也会显示出自身特有的[缺陷](http://www.satzansatz.de/cssd/tmp/alphatransparency.html "查看 Ingo Chao 如何试图使它们正常工作")。
 
-### 对已渲染元素的重排(re-flow)<a name="reflow"></a>
+### <a name="reflow"></a>对已渲染元素的重排(re-flow)
 
 当所有元素都已渲染完成时，如果有一个因鼠标经过而引起的变化产生(比如某个链接的 `background` 有变化)，IE会对其 layout 包含区块进行重排。有时一些元素就会因此被排到了新的位置，因为当这个鼠标经过发生时，IE已经知道了所有相关元素的宽度、偏移量等数据了。这在文档首次载入时则不会发生，那时由于自动扩张的特性，宽度还无法确定。这种情况会导致在鼠标经过时页面出现跳变。
 
-* [Jump on :hover](http://www.satzansatz.de/cssd/pseudocss.html#hoverjump "查看 Ingo Chao 关于&quot;伪CSS&quot;的相关文章")
+* [Jump on :hover](http://www.satzansatz.de/cssd/pseudocss.html#hoverjump "查看 Ingo Chao 关于"伪CSS"的相关文章")
 * [quirky percentages: the reflow](http://www.positioniseverything.net/explorer/percentages.html "查看 PIE 上文章")
 
 这些和重排问题相关的 bug 会给百分比边距和补白使用较多的流动布局带来不少麻烦。
 
-### 背景原点<a name="bgorigin"></a>
+### <a name="bgorigin"></a>背景原点
 
 MS专有的这个 hasLayout 还会影响背景的定位和扩展。比如，根据 [CSS 规范](http://www.w3.org/TR/CSS21/colors.html#q2 "查看 W3C 规范")，`background-position: 0 0` 应该指元素的“补白边缘(padding edge)”。而在 IE/Win 下，如果 `hasLayout = false` 则指的是“边框边缘(border edge)”，当 `hasLayout=true` 时指的才是补白边缘：
 
 * [Background, Border, hasLayout](http://www.brunildo.org/test/BackgroundBorderLayout.html "查看 Bruno Fassino 的文章")
 
-### 边距重叠<a name="uncollapse"></a>
+### <a name="uncollapse"></a>边距重叠
 
 `hasLayout` 会影响一个盒子和其子孙的边距重叠。根据规范，一个盒子如果没有上补白和上边框，那么它的上边距应该和其文档流中的第一个孩子元素的上边距重叠：
 
@@ -444,13 +426,13 @@ MS专有的这个 hasLayout 还会影响背景的定位和扩展。比如，根�
 
 * [Margin collapsing and hasLayout](http://www.brunildo.org/test/IEMarginCollapseLayout.html "查看 Bruno Fassino 的文章")
 
-### 块级别的链接<a name="link"></a>
+### <a name="link"></a>块级别的链接
 
 hasLayout 会影响一个块级别链接的鼠标响应区域(可点击区域)。通常 hasLayout = false 时只有文字覆盖区域才能响应。而 hasLayout = true 则整个块状区域都可响应。添加了 onclick/onmouseover 等事件的任意块级元素也有同样的现象。
 
 * [Block anchors and hasLayout](http://www.brunildo.org/test/IEABlock1.html "查看 Bruno Fassino 的文章")
 
-### 在页面内使用键盘浏览：探索中<a name="inpage"></a>
+### <a name="inpage"></a>在页面内使用键盘浏览：探索中
 
 当使用 tab 在页面中浏览时，如果进入了一个页内链接(in-page link)，那么接下来再按的 <kbd>tab</kbd> 键就不会正常继续了：
 
@@ -459,7 +441,7 @@ hasLayout 会影响一个块级别链接的鼠标响应区域(可点击区域)�
 
 <kbd>tab</kbd> 键会把用户带到(这通常是错误的)其最近的 layout 祖先中的第一个目标(如果这个祖先是由 `table`， `div`， `span` 或某些别的标签构成)。
 
-### 收缩包围(shrink-wrapping)现象<a name="shrinkwrap"></a>
+### <a name="shrinkwrap"></a>收缩包围(shrink-wrapping)现象
 
 给已经有 `width: auto` 的元素添加某些属性会导致它们在计算自身宽度时使用一种收缩包围的算法。比如这些属性 `float: left|right, position: absolute|fixed, display: table|table-cell|inline-block|inline-table.`
 
@@ -472,7 +454,7 @@ hasLayout 会影响一个块级别链接的鼠标响应区域(可点击区域)�
 
 这时收缩包围现象只有在以下情况仍然有效：拥有 layout 的孩子元素同时也被赋予了一个特定宽度，或者这个孩子元素本身也是一个具有收缩包围特性的元素，比如浮动元素。
 
-### 边缘裁切<a name="clip"></a>
+### <a name="clip"></a>边缘裁切
 
 通常而言，当一个盒子包含了诸如伸出其边缘的内容这种更复杂的结构时，这个容器就经常需要“hasLayout”来避免一些渲染错误。但使用这种常用方法又会在边界处理时左右为难，因为一个获得“layout”的元素会变成某种[自封闭](#interpr "查看“分析”部分")的盒子。
 
@@ -482,7 +464,7 @@ hasLayout 会影响一个块级别链接的鼠标响应区域(可点击区域)�
 
 被裁掉的部分当内容盒子触发了“layout”时可以再次出现，但在 IE6 中需要同时拥有 `position: relative` 才行。IE7 在这方面要略有改观，它不再需要额外的 `position: relative` 了。
 
-## 堆叠，分层和 layout <a name="stack"></a>
+## <a name="stack"></a>堆叠，分层和 layout 
 
 IE/Win 中似乎有两种分层和堆叠顺序：
 
@@ -491,9 +473,9 @@ IE/Win 中似乎有两种分层和堆叠顺序：
 
 两种堆叠模式虽互不相容，但却共存于IE的渲染引擎中。经验之谈：调试的时候，两种情况都要考虑到。我们可能会有规律地在下拉菜单或者类似的复杂菜单中看到相关问题，因为它们往往牵涉到堆叠，定位和浮动等诸多令人头疼的问题。给那些 z-index 定位的元素 layout 是一种可能的修正方法，不过也不限于此，这里只是提醒一下。
 
-## 混乱的 contenteditable<a name="contenteditable"></a>
+## <a name="contenteditable"></a>混乱的 contenteditable
 
-如果给一个 HTML 标签设定 `contenteditable=true` 属性，比如`&lt;body contenteditable=true&gt;`，将会允许对该元素以及其 layout 子元素进行实时的编辑、拖动改变尺寸等操作。你可以把这属性用在浮动元素或者一个有序列表中的 layout 列表元素上看看效果。
+如果给一个 HTML 标签设定 `contenteditable=true` 属性，比如`<body contenteditable=true>`，将会允许对该元素以及其 layout 子元素进行实时的编辑、拖动改变尺寸等操作。你可以把这属性用在浮动元素或者一个有序列表中的 layout 列表元素上看看效果。
 
 为了对元素进行操作(编辑它们)，“contenteditable”和“hasLayout”为那些 `hasLayout` 返回 `true` 的元素引入了一套单独的堆叠顺序。
 
@@ -501,7 +483,7 @@ Editing Platform(此文已从 MSDN 删除<sup>[2](#endnote_002)</sup>)继承了 
 
 * [More on contenteditable](http://annevankesteren.nl/2005/07/more-contenteditable "查看 Anne van Kesteren 的blog条目")
 
-## 和 CSS 规范类似的地方<a name="engineer"></a>
+## <a name="engineer"></a>和 CSS 规范类似的地方
 
 你的 MSIE 页面在别的浏览器中一团糟？我们可没必要让这种事情发生。如果使用恰当，任何好的浏览器都能摆平 MSIE 的页面——只要你使用一些正确的 CSS。
 
@@ -510,17 +492,17 @@ Editing Platform(此文已从 MSDN 删除<sup>[2](#endnote_002)</sup>)继承了 
 * [Reverse engineering series](http://www.gunlaug.no/contents/wd_example_01.html "查看 Georg Sørtun 的系列文章")
 * [Simulations](http://dev.l-c-n.com/IEW/simulations.php "查看 Philippe Wittenbergh 模拟的 hasLayout：overflow，display:table，新的块级格式化范围")
 
-## Quirks 模式<a name="quirk"></a>
+## <a name="quirk"></a>Quirks 模式
 
 关于这种渲染模式的的信息，请参考我们的 [quirks 模式](http://www.satzansatz.de/cssd/quirksmode.html "Quirks mode in IE 6 and IE 7")章节。
 
-## Layout ——结论<a name="conclusion"></a>
+## <a name="conclusion"></a>Layout ——结论
 
 整个 layout 概念和一些基本 CSS 概念是不兼容的，即包含，排列，浮动，定位和层叠等。
 
 由于页面中元素或有或没有 layout，会导致 IE/Win 的行为和 CSS 规范相违背。
 
-## 拥有 layout ——另外一个引擎？<a name="bottomline"></a>
+## <a name="bottomline"></a>拥有 layout ——另外一个引擎？
 
 <blockquote cite="http://dean.edwards.name/IE7/notes/#layout" title="Dean Edward 关于IE7的一些说明">
 IE 的对象模型看起来是文档模型和他们传统的应用程序模型的糅合。我之所以提到这点是因为它对于理解IE如何渲染页面很重要。而从文档模型切换到应用程序模型的开关就是给一个元素“layout”。
@@ -530,7 +512,7 @@ IE 的对象模型看起来是文档模型和他们传统的应用程序模型�
 
 有时候要解释清楚某种行为是不可能的：就比如 hasLayout，会根据它的状态选择两种不同渲染引擎的一种使用，而且每一种都有其自己的 bug 和怪异之处。
 
-## 不可消除的 bug<a name="absurd"></a>
+## <a name="absurd"></a>不可消除的 bug
 
 <blockquote cite="http://www.gunlaug.no/contents/molly_1_15.html" title="Molly 说到...">
 软件 bug 是由于在制作过程中对完整性和逻辑问题考虑不周等人为错误而导致的。这是人类的固有缺陷，目前还没有什么好的解决方法。
@@ -538,47 +520,43 @@ IE 的对象模型看起来是文档模型和他们传统的应用程序模型�
 所有依赖别的软件的软件——当然包括依赖操作系统，也会同样依赖他们的 bug。于是我们会从所有关联的软件中得到一连串的 bug，这也更说明找到一个无 bug 软件是几乎不可能的。
 </blockquote>
 
-([Molly, the cat‛](http://www.gunlaug.no/contents/molly_1_15.html "Molly 说到..."))
+([Molly, the cat](http://www.gunlaug.no/contents/molly_1_15.html "Molly 说到..."))
 
 本文创建于2005年6月30日，最后一次修改于2006年10月19日。
 
-<dl name="editors">
-<dt>编者：</dt>
-<dd>[Holly Bergevin](http://positioniseverything.net/ "Holly on PIE")</dd>
-<dd>[Ingo Chao](http://www.satzansatz.de/css.html "Satzansatz — CSS")</dd>
-<dd>[Bruno Fassino](http://www.brunildo.org/ "Brunildo — CSS")</dd>
-<dd>[John Gallant](http://positioniseverything.net/ "Big John on PIE")</dd>
-<dd>[Georg Sørtun](http://www.gunlaug.no/ "Web-carpenter and farm assistent")</dd>
-<dd>[Philippe Wittenbergh](http://emps.l-c-n.com/ "Empty Spaces")</dd>
-</dl>
+### <a name="editors"></a>编者：
 
-<dl name="support">
-<dt>特别致谢给予此项目支持的：</dt>
-<dd>[Molly ‚the cat‛,](http://dean.edwards.name "">Dean Edwards</a>, [
-</dl>
+* [Holly Bergevin](http://positioniseverything.net/ "Holly on PIE")
+* [Ingo Chao](http://www.satzansatz.de/css.html "Satzansatz — CSS")
+* [Bruno Fassino](http://www.brunildo.org/ "Brunildo — CSS")
+* [John Gallant](http://positioniseverything.net/ "Big John on PIE")
+* [Georg Sørtun](http://www.gunlaug.no/ "Web-carpenter and farm assistent")
+* [Philippe Wittenbergh](http://emps.l-c-n.com/ "Empty Spaces")
 
-<dl name="translation">
-<dt>各种语言版本：</dt>
-<dd><a href="http://www.satzansatz.de/cssd/onhavinglayout.html" >原版(English)](http://www.gunlaug.no/contents/molly_1.html)</dd>
-<dd>[Mauricio Samy Silva](http://www.maujor.com/tutorial/haslayout.php ">巴西葡萄牙语(Brazilian Portuguese)</a> by [
-<dd><a href="http://old9.blogsome.com/2006/04/11/onhavinglayout/">中文版本(Chinese)](http://www.maujor.com) by [old9](http://old9.blogsome.com)</dd>
-<dd>[德语(German)](http://onhavinglayout.fwpf-webdesign.de/) by [Corina Rudel](http://corina-rudel.de/)</dd>
-<dd>[意大利语(Italian)](http://gabrieleromanato.altervista.org/css/onhavinglayout.html "Italiano") by [Gabriele Romanato](http://gabrieleromanato.altervista.org/ "Gabriele Romanato")</dd>
-<dd>其他正在翻译中的语言：希伯来语(Hebrew)，西班牙语(Spanish)，日语(Japanese )，保加利亚语(Bulgarian)。<br />
-欢迎翻译本文，请和我们联系。</dd>
-</dl>
+### <a name="support"></a>特别致谢给予此项目支持的：
+[Dean Edwards](http://dean.edwards.name "Molly ‚the cat")
 
-<dl name="discussion">
-<dt>相关讨论：</dt>
-<dd>[dean.edwards.name/weblog/](http://dean.edwards.name/weblog/2005/06/layout/)</dd>
-<dt>联系作者：</dt>
-<dd><del class="spam">spam.</del>layout@satzansatz.de</dd>
-</dl>
 
-<dl name="licence">
-<dt>版权说明：</dt>
-<dd>本文基于[创作共用协议](http://creativecommons.org/licenses/by-nc-sa/2.0/)发布。</dd>
-</dl>
+### <a name="translation">各种语言版本：
+* [原版(English)](http://www.satzansatz.de/cssd/onhavinglayout.html)
+  [巴西葡萄牙语(Brazilian Portuguese)](http://www.maujor.com/tutorial/haslayout.php) by [Mauricio Samy Silva](http://www.maujor.com)
+* [中文版本(Chinese)](https://github.com/old9/on-having-layout-zh-cns/blob/master/on-having-layout-zh-CN.md) by [old9](https://github.com/old9)
+* [德语(German)](http://onhavinglayout.fwpf-webdesign.de/) by [Corina Rudel](http://corina-rudel.de/)
+* [意大利语(Italian)](http://gabrieleromanato.altervista.org/css/onhavinglayout.html "Italiano") by [Gabriele Romanato](http://gabrieleromanato.altervista.org/ "Gabriele Romanato")
+* 其他正在翻译中的语言：希伯来语(Hebrew)，西班牙语(Spanish)，日语(Japanese )，保加利亚语(Bulgarian)。
+* 欢迎翻译本文，请和我们联系。
+
+### <a name="discussion"></a>相关讨论：
+
+* [dean.edwards.name/weblog/](http://dean.edwards.name/weblog/2005/06/layout/)
+
+### 联系作者：
+
+* <del class="spam">spam.</del>layout@satzansatz.de
+
+### <a name="licence"></a>版权说明：
+
+* 本文基于[创作共用协议](http://creativecommons.org/licenses/by-nc-sa/2.0/)发布。
 
 
 ## 目录
@@ -620,6 +598,7 @@ IE 的对象模型看起来是文档模型和他们传统的应用程序模型�
 35. [Layout —— 结论](#conclusion)
 36. [拥有 layout —— 另外一个引擎？](#bottomline)
 37. [不可消除的 bug](#absurd)
+
 
 1. [原文](http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "See the MSDN measurement and location overview")在 MSDN 上被修改过了。我们在 Internet Archive 上找到了一个存档版本([Controlling Presentation with Measurement and Location Properties](http://web.archive.org/web/20060213042931/http://msdn.microsoft.com/workshop/author/css/overview/measurementandlocation.asp "see the MSDN"))。
 2. [原文](http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "See the MSDN")在 MSDN 上已被删除，这里是 Internet Archive 上的一个存档版本([The MSHTML Editing Platform in Internet Explorer 5.5](http://web.archive.org/web/20060207170714/http://msdn.microsoft.com/library/en-us/dnmshtml/html/mshtmleditplatf.asp "see the MSDN spec"))。
