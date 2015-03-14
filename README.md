@@ -12,6 +12,9 @@
 
 目前[原文](http://www.satzansatz.de/cssd/onhavinglayout.html)的版本是 2008 年修订的 rev 8，而此简体中文版仅翻译到 rev 7，接下来会尽快补充上 rev 8 的内容，并修正失效的链接。如果遇到文中链接失效，可以参考原文。
 
+## 其他版本
+
+Ivan Yan @yanxyz 在此版本基础上做了一些更新和整理，保留了原版样式：[https://github.com/yanxyz/onhavinglayout](https://github.com/yanxyz/onhavinglayout)。
 
 
 
